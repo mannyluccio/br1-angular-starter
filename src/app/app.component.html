@@ -1,0 +1,68 @@
+<div class="position-absolute fixed-bottom alert-z-container">
+    <div class="container">
+        <alert></alert>
+    </div>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="container d-flex justify-content-between" [ngSwitch]="authService.isLoggedIn()">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngSwitchCase="true">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/books']">{{ 'BOOKS' | translate }}</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/redeem']">REDEEM YOUR CODE</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/settings']">SETTINGS</a>
+                </li>
+            </ul>
+            <div class="my-2 my-lg-0">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="logout()">LOGOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngSwitchDefault>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/login']">{{ 'LOGIN' | translate }}</a>
+                </li>
+                <li class="nav-item" routerLinkActive="active">
+                    <a class="nav-link" [routerLink]="['/register']">REGISTER</a>
+                </li>
+            </ul>
+            <div class="my-2 my-lg-0">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" [ngClass]="{'active': lang === 'en'}">
+                        <a class="nav-link" (click)="setLang('en')">ENGLISH</a>
+                    </li>
+                    <li class="nav-item" [ngClass]="{'active': lang === 'de'}">
+                        <a class="nav-link" (click)="setLang('de')">DETUSH</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
+
+
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">Place sticky footer content here.</p>
+    </div>
+</footer>
