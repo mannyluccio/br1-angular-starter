@@ -1,4 +1,4 @@
 const environment = {
-    origin: 'http://localhost:8080',
+    origin: 'https://reqres.in/api',
 };
 module.exports = environment;

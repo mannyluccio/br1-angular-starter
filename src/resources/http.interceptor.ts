@@ -18,10 +18,13 @@ export class NoopInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let clonedReq : any = req;
+        if (!req.url.includes(".json")) {
+            clonedReq = {
+                url: `${environment.origin}/${req.url}`
+            };
+        }
 
-        let clonedReq: any = {
-            url: `${environment.origin}/${req.url}`
-        };
 
         let token = localStorage.getItem('token');
         if (token) {

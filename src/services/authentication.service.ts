@@ -28,18 +28,16 @@ export class AuthenticationService {
     }
 
     getAdminUser() {
-        return Observable.of('Hello Alligator!').delay(1000);
-        // return this.http.get<any>('adminUser').pipe(map(data => {
-        //
-        //     localStorage.setItem('user', JSON.stringify(data));
-        //     return data
-        // })).catch((err) => {
-        //     if (err.status === 404 || err.status === 403) {
-        //         this.alertService.addMessage('danger', 'user not found')
-        //         this.logout();
-        //     }
-        //     return throwError(err)
-        // });
+        return this.http.get<any>('users').pipe(map(data => {
+
+            return data
+        })).catch((err) => {
+            if (err.status === 404 || err.status === 403) {
+                this.alertService.addMessage('danger', 'user not found')
+                this.logout();
+            }
+            return throwError(err)
+        });
     }
 
     static setToken(token) {

@@ -6,35 +6,36 @@ import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {AlertComponent} from "./directives/alerts/alerts.component";
 import {AlertService} from "./directives/alerts/alerts.service";
 import {CommonModule, HashLocationStrategy, LocationStrategy} from "@angular/common";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {NoopInterceptor} from "./resources/http.interceptor";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {routing} from "./app/app.routing";
-import {HomeComponent} from "./app/home/home.component";
-import {LoginComponent} from "./app/login/login.component";
+import {AppRoutingModule} from "./app/app.routing";
 import {ModalComponent} from "./directives/modal/modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthGuardService} from "./services/auth-guard.service";
 import {LoginGuardService} from "./services/login-guard.service";
 import {AuthenticationService} from "./services/authentication.service";
 import {AuthResolver} from "./services/auth.resolver";
-import {TranslateService} from "./services/translate.service";
-import {TranslatePipe} from "./pipes/translate.pipe";
-import {RedeemComponent} from "./app/redeem/redeem.component";
-import {SettingsComponent} from "./app/settings/settings.component";
-import {BooksComponent} from "./app/books/books.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 
-export function setupTranslateFactory(
-    service: TranslateService): Function {
-    return () => service.use('en');
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/src/i18n/');
 }
 
 @NgModule({
     imports: [
         BrowserModule,
-        routing,
+        AppRoutingModule,
         HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
         BrowserAnimationsModule,
         FormsModule,
         CommonModule,
@@ -44,24 +45,11 @@ export function setupTranslateFactory(
     declarations: [
         AppComponent,
         AlertComponent,
-        HomeComponent,
-        RedeemComponent,
-        SettingsComponent,
-        BooksComponent,
-        LoginComponent,
         ModalComponent,
-        TranslatePipe
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: NoopInterceptor, multi: true },
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        TranslateService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: setupTranslateFactory,
-            deps: [ TranslateService ],
-            multi: true
-        },
         AlertService,
         AuthenticationService,
         AuthResolver,

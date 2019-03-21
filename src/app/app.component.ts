@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import '../assets/scss/main.scss'
 import {ViewEncapsulation} from '@angular/core';
 import 'bootstrap';
-import {TranslateService} from "../services/translate.service";
 import {AuthenticationService} from "../services/authentication.service";
+import {TranslateService} from "@ngx-translate/core";
 
 let currentStyle = require('./app.component.scss').toString();
 
@@ -15,17 +15,16 @@ let currentStyle = require('./app.component.scss').toString();
 })
 export class AppComponent {
 
-    private lang: string = 'en';
-
     constructor(
         private translate: TranslateService,
         private authService: AuthenticationService,
     ) {
+        translate.setDefaultLang('en');
     }
 
-    setLang(lang: string) {
-        this.translate.use(lang);
-        this.lang = lang;
+    switchLanguage(language: string) {
+        console.log(language)
+        this.translate.use(language);
     }
 
     logout(){
